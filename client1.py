@@ -43,6 +43,10 @@ stateofgame = 0
 mouse = pygame.mouse.get_pos()
 font = pygame.freetype.Font("font.ttf", 36)
 font2 = pygame.freetype.Font("font.ttf", 90)
+name = ""
+serverip = ""
+namet = False
+serveript = False
 # FPS = 60  # frames per second setting
 # fpsClock = pygame.time.Clock()
 
@@ -89,9 +93,6 @@ def mainmenu():
     r = r2
     g = g2
     b = b2
-    print(r)
-    print(g)
-    print(b)
     DISPLAYSURF.fill((r, g, b))
     if fullscreen:
         # text on top
@@ -140,8 +141,8 @@ def mainmenu():
             print("The whole game got closed")
             mainloop = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_l:
-                stateofgame += 1
+            # if event.key == pygame.K_l:
+                # stateofgame += 1
             if event.key == pygame.K_F4:
                 f4 = True
             if event.key == pygame.K_LALT:
@@ -166,17 +167,163 @@ def mainmenu():
     pygame.display.flip()
     # fpsClock.tick(FPS)
 
+##############################################################################
 
-def settings():
-    global f4, alt, fullscreen, mainloop, disconnected, DISPLAYSURF, stateofgame, mouse
-    DISPLAYSURF.fill((0, 255, 0))
+
+def beforejoin():
+    global f4, alt, fullscreen, mainloop, disconnected, DISPLAYSURF, stateofgame, mouse, r, g, b, r3, g3, b3, \
+        w, h, click, serverip, name, serveript, namet
+    wn, hn = pygame.display.get_surface().get_size()
+    mx, my = pygame.mouse.get_pos()
+    # , FPS, fpsClock
+    if r3 == "a":
+        r2 = r - randrange(20)
+        if r2 < 0:
+            r2 = 0
+            r3 = "b"
+    else:
+        r2 = r + randrange(20)
+        if r2 > 255:
+            r2 = 255
+            r3 = "a"
+    ###
+    if g3 == "a":
+        g2 = g - randrange(20)
+        if g2 < 0:
+            g2 = 0
+            g3 = "b"
+    else:
+        g2 = g + randrange(20)
+        if g2 > 255:
+            g2 = 255
+            g3 = "a"
+    ###
+    if b3 == "a":
+        b2 = b - randrange(20)
+        if b2 < 0:
+            b2 = 0
+            b3 = "b"
+    else:
+        b2 = b + randrange(20)
+        if b2 > 255:
+            b2 = 255
+            b3 = "a"
+    # time.sleep(0.2)
+    r = r2
+    g = g2
+    b = b2
+    DISPLAYSURF.fill((r, g, b))
+    if fullscreen:
+        # buttons
+        button1 = pygame.draw.rect(DISPLAYSURF, (255, 0, 0), (int(w / 2 - 160), 140, 300, 40))
+        text_surface, rect = font.render("Server's ip:", (0, 0, 0))
+        DISPLAYSURF.blit(text_surface, (int(w / 2 - 75), 90))
+        if serveript:
+            text_surface2, rect = font.render(serverip + "_", (0, 0, 0))
+            DISPLAYSURF.blit(text_surface2, (int(w / 2 - 160), 140))
+        else:
+            text_surface2, rect = font.render(serverip, (0, 0, 0))
+            DISPLAYSURF.blit(text_surface2, (int(w / 2 - 160), 140))
+        if button1.collidepoint(mx, my):
+            if click:
+                serveript = True
+                namet = False
+        button2 = pygame.draw.rect(DISPLAYSURF, (255, 0, 0), (int(w / 2 - 160), 280, 300, 40))
+        text_surface, rect = font.render("Name:", (0, 0, 0))
+        DISPLAYSURF.blit(text_surface, (int(w / 2 - 40), 230))
+        if namet:
+            text_surface2, rect = font.render(name + "_", (0, 0, 0))
+            DISPLAYSURF.blit(text_surface2, (int(w / 2 - 160), 280))
+        else:
+            text_surface2, rect = font.render(name, (0, 0, 0))
+            DISPLAYSURF.blit(text_surface2, (int(wn / 2 - 160), 280))
+        if button2.collidepoint(mx, my):
+            if click:
+                namet = True
+                serveript = False
+        button4 = pygame.draw.rect(DISPLAYSURF, (255, 0, 0), (int(wn / 2 - 160), 350, 300, 40))
+        text_surface, rect = font.render("Join", (0, 0, 0))
+        DISPLAYSURF.blit(text_surface, (int(wn / 2 - 40), 355))
+        if button4.collidepoint(mx, my):
+            if click:
+                serveript = False
+                namet = False
+                stateofgame += 1
+        button3 = pygame.draw.rect(DISPLAYSURF, (255, 0, 0), (int(wn / 2 - 160), 435, 300, 40))
+        text_surface, rect = font.render("Back", (0, 0, 0))
+        DISPLAYSURF.blit(text_surface, (int(wn / 2 - 40), 440))
+        if button3.collidepoint(mx, my):
+            if click:
+                serveript = False
+                namet = False
+                stateofgame -= 1
+    else:
+        # buttons
+        button1 = pygame.draw.rect(DISPLAYSURF, (255, 0, 0), (int(wn / 2 - 160), 140, 300, 40))
+        text_surface, rect = font.render("Server's ip:", (0, 0, 0))
+        DISPLAYSURF.blit(text_surface, (int(wn / 2 - 75), 90))
+        if serveript:
+            text_surface2, rect = font.render(serverip + "_", (0, 0, 0))
+            DISPLAYSURF.blit(text_surface2, (int(wn / 2 - 160), 140))
+        else:
+            text_surface2, rect = font.render(serverip, (0, 0, 0))
+            DISPLAYSURF.blit(text_surface2, (int(wn / 2 - 160), 140))
+        if button1.collidepoint(mx, my):
+            if click:
+                serveript = True
+                namet = False
+        button2 = pygame.draw.rect(DISPLAYSURF, (255, 0, 0), (int(wn / 2 - 160), 280, 300, 40))
+        text_surface, rect = font.render("Name:", (0, 0, 0))
+        DISPLAYSURF.blit(text_surface, (int(wn / 2 - 40), 230))
+        if namet:
+            text_surface2, rect = font.render(name + "_", (0, 0, 0))
+            DISPLAYSURF.blit(text_surface2, (int(wn / 2 - 160), 280))
+        else:
+            text_surface2, rect = font.render(name, (0, 0, 0))
+            DISPLAYSURF.blit(text_surface2, (int(wn / 2 - 160), 280))
+        if button2.collidepoint(mx, my):
+            if click:
+                namet = True
+                serveript = False
+        button4 = pygame.draw.rect(DISPLAYSURF, (255, 0, 0), (int(wn / 2 - 160), 350, 300, 40))
+        text_surface, rect = font.render("Join", (0, 0, 0))
+        DISPLAYSURF.blit(text_surface, (int(wn / 2 - 40), 355))
+        if button4.collidepoint(mx, my):
+            if click:
+                serveript = False
+                namet = False
+                stateofgame += 1
+        button3 = pygame.draw.rect(DISPLAYSURF, (255, 0, 0), (int(wn / 2 - 160), 435, 300, 40))
+        text_surface, rect = font.render("Back", (0, 0, 0))
+        DISPLAYSURF.blit(text_surface, (int(wn / 2 - 40), 440))
+        if button3.collidepoint(mx, my):
+            if click:
+                serveript = False
+                namet = False
+                stateofgame -= 1
+    click = False
     for event in pygame.event.get():
+        if event.type == pygame.VIDEORESIZE:
+            if fullscreen:
+                DISPLAYSURF = pygame.display.set_mode((event.w, event.h), pygame.FULLSCREEN)
+            else:
+                DISPLAYSURF = pygame.display.set_mode((event.w, event.h), pygame.RESIZABLE)
         if event.type == pygame.QUIT:
             print("The whole game got closed")
             mainloop = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_l:
-                stateofgame += 1
+            if event.key == pygame.K_BACKSPACE:
+                if serveript:
+                    serverip = serverip[:-1]
+                elif namet:
+                    name = name[:-1]
+            else:
+                if serveript:
+                    serverip += event.unicode
+                elif namet:
+                    name += event.unicode
+            # if event.key == pygame.K_l:
+                # stateofgame += 1
             if event.key == pygame.K_F4:
                 f4 = True
             if event.key == pygame.K_LALT:
@@ -195,6 +342,12 @@ def settings():
                     pygame.quit()
                     DISPLAYSURF = pygame.display.set_mode((w, h), pygame.FULLSCREEN)
                     fullscreen = True
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                click = True
+    pygame.display.flip()
+    # fpsClock.tick(FPS)
+###########################################################
 
 
 def play():
@@ -231,7 +384,7 @@ while mainloop:
     if stateofgame == 0:
         mainmenu()
     elif stateofgame == 1:
-        settings()
+        beforejoin()
     elif stateofgame == 2:
         play()
     else:
