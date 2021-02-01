@@ -91,7 +91,7 @@ def server0():
                         conn.sendall(pickle.dumps(Serverips[3]))
                     elif Serversavailable[4] == "yes":
                         conn.sendall(pickle.dumps(Serverips[4]))
-                    # else unform players that the server is full
+                    # else inform players that the server is full
 
         except ConnectionResetError:
             print("someone left the Join server in an improper way resulting in a connection reset by windows")
@@ -110,11 +110,11 @@ def server1():
                     Serversavailable[1] = "no"
                     recv_data = conn.recv(1024)  # here is where the server waits for connection
                     data = pickle.loads(recv_data)
-                    print("someone on server1")
+                    # print("someone on server1")
                     if data[0] == "bye":
                         Serversavailable[1] = "yes"
                         print("yas")
-                    print(pickle.loads(recv_data))
+                    # print(pickle.loads(recv_data))
                     conn.sendall(pickle.dumps(Gamevariables))
         except ConnectionResetError:
             Serversavailable[1] = "yes"
@@ -219,7 +219,7 @@ def server5():
 
 
 def console():
-    text = input("prompt")
+    text = input("prompt ")
     if text == "close":
         while True:
             print("a")
